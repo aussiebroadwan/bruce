@@ -1,0 +1,7 @@
+services:
+  bot:
+    image: "ghcr.io/lcox74/driftwood:latest"
+    env_file:
+      - .env
+    volumes:
+      - ./lua:/lua # Mount the local lua directory to the container's /lua directory
