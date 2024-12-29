@@ -1,6 +1,6 @@
 # Tony V2 - Discord Bot
 
-Tony is the official bot for the Aussie BroadWAN Discord server. Originally written in Go, Tony has evolved to embrace a more flexible and user-friendly approach. By leveraging the **Driftwood** framework, which utilizes Lua scripting, Tony makes it easy for community members to add new features and commands without delving into complex programming.
+Tony V2 is the bot for the Aussie BroadWAN Discord server. Originally written in Go, Tony has evolved to embrace a more flexible and user-friendly approach. By leveraging the **[Driftwood]** framework, which utilizes Lua scripting, Tony makes it easy for community members to add new features and commands without delving into complex programming.
 
 - **Extensible with Lua Scripts**: Easily add new commands, subcommands, and features by writing Lua scripts.
 - **Dynamic Interaction Handling**: Supports message components like buttons and dropdowns with advanced event handling.
@@ -20,6 +20,6 @@ After setting up your bot, generate a Bot Token and save it in a `.env` file.
 
 The bot then can be ran using Docker, simply run `docker compose up` in the directory to launch the bot. To add additional funcitonality, add files to the `lua/` directory.
 
-
+[Driftwood]: https://github.com/lcox74/Driftwood
 [Go]: https://go.dev/
 [Discord Dev Doc]: https://discord.com/developers/docs/getting-started
