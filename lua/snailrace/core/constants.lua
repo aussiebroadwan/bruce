@@ -1,23 +1,23 @@
 local constants = {}
 
--- State key for storing race data
-constants.STATE_KEY = "snailrace_state"
+-- General race configuration
+constants.STATE_KEY = "snailrace_state" -- State key for storing race data
+constants.BUTTON_JOIN_ID = "snailrace_join" -- Button interaction ID for joining the race
+constants.MAX_UNITS = 20 -- Maximum number of units to the finish line
+constants.MIN_PARTICIPANTS = 4 -- Minimum participants required to start a race
+constants.MAX_REDRAW_ATTEMPTS = 3 -- Maximum attempts to redraw a card
 
--- Button interaction ID for joining the race
-constants.BUTTON_JOIN_ID = "snailrace_join"
+-- Timing configuration
+constants.TICK_SPEED = 1 -- Tick speed in seconds
+constants.JOIN_DURATION = 5 -- Join phase duration in seconds
 
--- Maximum number of units to the finish line
-constants.MAX_UNITS = 20
-
-constants.MIN_PARTICIPANTS = 4
-
-constants.MAX_REDRAW_ATTEMPTS = 3
+-- Deck configuration
+constants.DECK_THRESHOLD_PERCENT = 0.2 -- Threshold to reshuffle the deck when 20% of cards remain
 
 -- Gates positioned at specific units
 constants.GATES = {5, 10, 15}
 
 -- Predefined fake racers
-constants.FAKE_RACERS = {"Turbo the Snail", "Speedy Slimy", "Shellshock"}
 constants.RACERS = {
     ["bot_snail_001"] = {
         name = "Granite Grump",
@@ -68,13 +68,57 @@ constants.RACERS = {
         name = "Risky Ricky",
         deck_preset = "risk_taker", -- Uses the risk taker deck preset
         history = {}
+    },
+    ["bot_snail_011"] = {
+        name = "Slippery Sam",
+        deck_preset = "slime_master", -- Uses the slime master deck preset
+        history = {}
+    },
+    ["bot_snail_012"] = {
+        name = "Zooming Zelda",
+        deck_preset = "turbo_charger", -- Uses the turbo charger deck preset
+        history = {}
+    },
+    ["bot_snail_013"] = {
+        name = "Chaos Carl",
+        deck_preset = "chaos_creator", -- Uses the chaos creator deck preset
+        history = {}
+    },
+    ["bot_snail_014"] = {
+        name = "Defensive Dave",
+        deck_preset = "defensive_crawler", -- Uses the defensive crawler deck preset
+        history = {}
+    },
+    ["bot_snail_015"] = {
+        name = "Trailblazing Tina",
+        deck_preset = "trailblazer", -- Uses the trailblazer deck preset
+        history = {}
+    },
+    ["bot_snail_016"] = {
+        name = "Tricky Trevor",
+        deck_preset = "trickster", -- Uses the trickster deck preset
+        history = {}
+    },
+    ["bot_snail_017"] = {
+        name = "Powerful Pete",
+        deck_preset = "power_snail", -- Uses the power snail deck preset
+        history = {}
+    },
+    ["bot_snail_018"] = {
+        name = "Sneaky Stella",
+        deck_preset = "opportunist_stalker", -- Uses the opportunist stalker deck preset
+        history = {}
+    },
+    ["bot_snail_019"] = {
+        name = "Speedy Steve",
+        deck_preset = "speed_demon", -- Uses the speed demon deck preset
+        history = {}
+    },
+    ["bot_snail_020"] = {
+        name = "Saboteur Sally",
+        deck_preset = "saboteur", -- Uses the saboteur deck preset
+        history = {}
     }
 }
-
--- Tick speed
-constants.TICK_SPEED = 1 -- seconds
-constants.JOIN_DURATION = 5 -- seconds
-
-constants.DECK_THRESHOLD_PERCENT = 0.2
 
 return constants

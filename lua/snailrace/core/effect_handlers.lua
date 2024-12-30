@@ -44,19 +44,15 @@ end
 ---@param state table The race state.
 handlers.attack = function(snail_id, card_effects, state)
     local target_id
-    local attempts = 0
-    repeat
-        target_id = utils.get_random_target(snail_id, state.positions)
-
-        -- Ensure the target is still racing 
-        if state.finish_order[target_id] then
-            target_id = nil
-        end
-        attempts = attempts + 1
-    until attempts > 10 or target_id
 
     if not target_id then
         driftwood.log.debug("Snail " .. snail_id .. " has no valid targets to attack.")
+        return
+    end
+
+    -- Ensure the target is still racing 
+    if state.finish_order[target_id] then
+        driftwood.log.debug("Snail " .. snail_id .. " tried to attack snail " .. target_id .. ", but it has already finished.")
         return
     end
 
@@ -72,9 +68,23 @@ handlers.attack = function(snail_id, card_effects, state)
     driftwood.log.debug("Snail " .. snail_id .. " is attacking snail " .. target_id .. " with " .. table.concat(card_effects, ", ") .. ".")
 
     -- Apply all secondary effects (e.g., "back", "skip") to the target
-    for _, effect in ipairs(card_effects) do
-        if effect ~= effects.ATTACK then
-            handlers.process(effect, target_id, state)
+    for i, effect in ipairs(card_effects) do
+
+        if effect == effects.ATTACK then
+            handlers.attack(snail_id, {utils.unpack(card_effects, i + 1, nil)}, state)
+        elseif effect == effects.DEFEND then
+            handlers.defend(snail_id, {utils.unpack(card_effects, i + 1, nil)}, state)
+        elseif effect == effects.SKIP then
+            state.skips = state.skips or {}
+
+            if state.skips[target_id] then
+                driftwood.log.debug("Snail " .. target_id .. " is already forced to skip.")
+                return
+            end
+
+            state.skips[target_id] = true
+        else
+            handlers.process(effect, snail_id, state)
         end
     end
 end
@@ -85,8 +95,24 @@ end
 ---@param state table The race state.
 handlers.defend = function(snail_id, card_effects, state)
     state.defends = state.defends or {}
-    state.defends[snail_id] = card_effects -- Store the defense effects for the snail
-    driftwood.log.debug("Snail " .. snail_id .. " is defending against " .. table.concat(card_effects, ", ") .. ".")
+    local processed_effects = {}
+
+    if state.defends[snail_id] then
+        processed_effects = state.defends[snail_id]
+    end
+
+    for i, effect in ipairs(card_effects) do
+        if effect == effects.ATTACK then
+            handlers.attack(snail_id, {utils.unpack(card_effects, i + 1, nil)}, state)
+            break
+        elseif effect ~= effects.DEFEND then
+            handlers.process(effect, snail_id, state)
+            table.insert(processed_effects, effect)
+        end
+    end
+    
+    state.defends[snail_id] = processed_effects -- Store the defense effects for the snail
+    driftwood.log.debug("Snail " .. snail_id .. " is defending against " .. table.concat(processed_effects, ", ") .. ".")
 end
 
 
@@ -125,6 +151,12 @@ handlers.process_card = function(card_effects, snail_id, state)
         repeats = 2
         driftwood.log.info("Snail " .. snail_id .. " card is boosted")
         state.boosts[snail_id] = nil -- Remove the boost
+    end
+
+    if state.skips and state.skips[snail_id] then
+        driftwood.log.debug("Snail " .. snail_id .. " forced to skip a turn.")
+        state.skips[snail_id] = nil -- Remove the skip
+        return
     end
 
     repeat
