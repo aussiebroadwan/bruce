@@ -50,7 +50,7 @@ logic.race_tick = function()
 end
 
 --- End the race and announce the winner.
--- @param winner_id string The Discord user ID of the winner.
+--- @param winner_id string The Discord user ID of the winner.
 logic.end_race = function(winner_id)
     local current_state = state.get()
     if not current_state then

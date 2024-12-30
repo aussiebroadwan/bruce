@@ -3,8 +3,8 @@ local constants = require("snailrace.constants")
 local render = {}
 
 --- Generate a visual representation of the race.
--- @param state table The current race state.
--- @return string The rendered race track as a string.
+--- @param state table The current race state.
+--- @return string The rendered race track as a string.
 render.race_track = function(state)
     local track_length = constants.MAX_UNITS + 1 -- Include finish line
     local race_render = "```\n   " .. string.rep(" ", track_length) .. "🏁\n"

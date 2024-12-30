@@ -8,6 +8,7 @@ local render = require("snailrace.render")
 local commands = {}
 
 --- Handle the "snailrace" command to host a race.
+--- @param interaction CommandInteraction The command interaction.
 commands.handle_snailrace_command = function(interaction)
     local host_id = interaction.user.id
     local channel_id = interaction.channel_id
@@ -39,7 +40,7 @@ commands.handle_snailrace_command = function(interaction)
     current_state.message_id = driftwood.message.add(channel_id, race_message)
     state.set(current_state)
 
-    state.set(current_state)
+    state.set(current_state) 
     interaction:reply_with_action("A new snail race has started! Click below to join.", {
         driftwood.new_button("Join Race", "snailrace_join")
     })
@@ -48,6 +49,7 @@ commands.handle_snailrace_command = function(interaction)
 end
 
 --- Handle the "join" button interaction.
+--- @param interaction EventInteraction The command interaction.
 commands.handle_join_button = function(interaction)
     local current_state = state.get()
 
