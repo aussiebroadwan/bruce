@@ -23,6 +23,7 @@ commands.handle_snailrace_command = function(interaction)
         channel_id = channel_id,
         participants = {[host_id] = interaction.user.global_name},
         positions = {[host_id] = 0},
+        finish_order = {}, -- Track finishing order
         deck = {},
         gate_index = 1,
         active = true,
@@ -40,7 +41,6 @@ commands.handle_snailrace_command = function(interaction)
     current_state.message_id = driftwood.message.add(channel_id, race_message)
     state.set(current_state)
 
-    state.set(current_state) 
     interaction:reply_with_action("A new snail race has started! Click below to join.", {
         driftwood.new_button("Join Race", "snailrace_join")
     })

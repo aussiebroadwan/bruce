@@ -1,6 +1,6 @@
 services:
   bot:
-    image: "ghcr.io/lcox74/driftwood:latest"
+    image: "ghcr.io/lcox74/driftwood:v1.0.0"
     env_file:
       - .env
     volumes:

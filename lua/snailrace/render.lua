@@ -14,8 +14,20 @@ render.race_track = function(state)
     local entrants = "Entrants:\n"
     for player_id, position in pairs(state.positions) do
         local name = state.participants[player_id]
-        local trail = string.rep(".", position)
-        race_render = race_render .. string.format("%2d| %s🐌\n", lane_number, trail)
+
+        -- Determine the track visualization
+        local trail = string.rep(".", position) -- Trail stops at the last spot before finish
+        local finish_display = ""
+
+        if position >= constants.MAX_UNITS then
+            -- Show the snail's place if it has finished
+            finish_display = " " .. tostring(state.finish_order[player_id] or "?")
+        else
+            -- Otherwise, show the remaining track and the finish line
+            finish_display = string.rep(" ", (constants.MAX_UNITS - 1) - position) .. "|"
+        end
+
+        race_render = race_render .. string.format("%2d| %s🐌%s\n", lane_number, trail, finish_display)
 
         if name then
             entrants = entrants .. string.format("[%d] %s\n", lane_number, name)
