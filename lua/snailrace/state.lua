@@ -1,11 +1,34 @@
 local driftwood = require("driftwood")
 
-local constants = require("snailrace.constants")
+local constants = require("snailrace.core.constants")
 
 local state = {}
 
+--- Initialize the race state.
+---@param host_id string The host's user ID.
+---@param channel_id string The channel where the race is hosted.
+---@param interaction CommandInteraction The interaction data from Discord.
+---@return table current_state The initialized state.
+state.initialize = function(host_id, channel_id, interaction)
+    return {
+        host = host_id,
+        channel_id = channel_id,
+        participants = {[host_id] = interaction.user.global_name},
+        positions = {[host_id] = 0},
+        finish_order = {}, -- Track the finishing order
+        deck = {},         -- The race deck
+        boosts = {},       -- Tracks active boosts
+        defends = {},      -- Tracks active defense effects
+        gate_index = 1,
+        active = true,
+        message_id = nil,
+        deck_size_threshold = 0,
+        redraws = 0,
+    }
+end
+
 --- Get the current race state.
---- @return table|nil The current race state, or nil if none exists.
+--- @return table|nil value The current race state, or nil if none exists.
 state.get = function()
     return driftwood.state.get(constants.STATE_KEY)
 end
