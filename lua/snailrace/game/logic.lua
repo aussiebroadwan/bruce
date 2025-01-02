@@ -58,6 +58,47 @@ local function draw_valid_card(current_state)
 end
 
 
+--- Draw three gate cards at the start of the race.
+---@param current_state table The current race state.
+local function draw_gate_cards(current_state)
+    for i = 1, #constants.GATES do
+        local gate_card = table.remove(current_state.deck, 1)
+        if gate_card then
+            table.insert(current_state.gates, gate_card)
+        else
+            driftwood.log.error("Not enough cards in the deck to assign gate cards.")
+        end
+    end
+end
+
+--- Activate the gate card effect.
+---@param gate_index number The index of the gate.
+---@param current_state table The current race state.
+local function activate_gate_card(gate_index, current_state)
+    if current_state.activated_gates[gate_index] then
+        return -- Gate card already activated
+    end
+
+    local gate_card = current_state.gates[gate_index]
+    if not gate_card then
+        driftwood.log.error("No gate card found for gate index " .. gate_index)
+        return
+    end
+
+    -- Mark gate as activated
+    current_state.activated_gates[gate_index] = true
+
+    -- Get the card definition
+    local card = cards.get(gate_card.card)
+    if not card then
+        driftwood.log.error("Gate card not found: " .. gate_card.card)
+        return
+    end
+
+    driftwood.log.info("Activating gate card at gate " .. constants.GATES[gate_index] .. ": " .. card.name)
+    handlers.process_card(card.effects, gate_card.snail_id, current_state)
+end
+
 --- Perform a single race tick.
 logic.race_tick = function()
     local current_state = state.get()
@@ -90,6 +131,23 @@ logic.race_tick = function()
     -- Apply all effects from the card
     driftwood.log.info("Snail " .. drawn_card.snail_id .. " drew card: " .. card.name)
     handlers.process_card(card.effects, drawn_card.snail_id, current_state)
+
+    -- Check if all snails have reached or passed the current gate
+    local gate_position = constants.GATES[current_state.gate_index]
+    if gate_position then
+        local all_passed = true
+        for _, position in pairs(current_state.positions) do
+            if position < gate_position then
+                all_passed = false
+                break
+            end
+        end
+
+        if all_passed then
+            activate_gate_card(current_state.gate_index, current_state)
+            current_state.gate_index = current_state.gate_index + 1
+        end
+    end
 
     -- Update positions and check if any snail finishes
     for snail_id, position in pairs(current_state.positions) do
@@ -134,5 +192,27 @@ logic.finish_race = function()
     -- Clear state
     state.clear()
 end
+
+--- Start the race and draw gate cards.
+logic.race_start = function()
+    local start_state = state.get()
+    if not start_state then
+        driftwood.log.error("Failed to get the race state")
+        return
+    end
+
+     -- Add fake racers
+    racers.add_fake_racers(start_state)
+
+    -- Build and shuffle the deck
+    racers.build_deck(start_state)
+
+    -- Draw gate cards
+    draw_gate_cards(start_state)
+
+    state.set(start_state)
+    logic.race_tick()
+end
+
 
 return logic

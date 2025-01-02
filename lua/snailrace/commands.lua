@@ -29,22 +29,7 @@ commands.handle_snailrace_command = function(interaction)
     state.set(current_state)
 
     interaction:reply("A new snail race has started!")
-    driftwood.timer.run_after(function()
-        local start_state = state.get()
-        if not start_state then
-            driftwood.log.error("Failed to get the race state")
-            return
-        end
-
-         -- Add fake racers
-        racers.add_fake_racers(start_state)
-
-        -- Build and shuffle the deck
-        racers.build_deck(start_state)
-        state.set(start_state)
-
-        logic.race_tick()
-    end, constants.JOIN_DURATION)
+    driftwood.timer.run_after(logic.race_start, constants.JOIN_DURATION)
 end
 
 --- Handle the "join" button interaction.
