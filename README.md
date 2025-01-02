@@ -11,15 +11,35 @@ Bruce is the bot for the Aussie BroadWAN Discord server. Originally written in G
 
 ## How to Run
 
-To deploy your own instance of Bruce, start by creating a Discord bot 
-application. Detailed instructions are available in the [Discord Dev Doc]. 
-After setting up your bot, generate a Bot Token and save it in a `.env` file.
+### Setting Up Bruce
 
-> **Note:** Use the provided .env.example as a template. Simply rename it to 
->           `.env` and update its contents accordingly.
+1. Create a Discord bot application via the [Discord Developer Portal].
+2. Generate a bot token and save it in a `.env` file.
+    - Use the provided `.env.example` file as a template by renaming it to `.env` and populating it with your bot's token and other necessary details.
 
-The bot then can be ran using Docker, simply run `docker compose up` in the directory to launch the bot. To add additional funcitonality, add files to the `lua/` directory.
+### Running Bruce
+
+Bruce can be run using Docker. Simply execute the following command in the bot’s directory:
+
+```bash
+docker compose up
+```
+
+To add custom functionality, place your Lua scripts in the `lua/` directory. Bruce will automatically load these scripts during startup.
+
+Alternatively, use the following Docker Compose template to deploy Bruce:
+
+```yaml
+services:
+  bot:
+    image: "ghcr.io/lcox74/driftwood:v1.0.1"
+    environment:
+      - DISCORD_TOKEN=your_bot_token
+      - GUILD_ID=your_guild_id # Your server ID
+    volumes:
+      - ./lua:/lua # Mounts your local lua directory to the container
+```
 
 [Driftwood]: https://github.com/lcox74/Driftwood
 [Go]: https://go.dev/
-[Discord Dev Doc]: https://discord.com/developers/docs/getting-started
+[Discord Developer Portal]: https://discord.com/developers/docs/getting-started
