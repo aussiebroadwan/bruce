@@ -99,4 +99,30 @@ utils.unpack = function(tbl, start, stop)
     end
 end
 
+--- Check if a value exists in a table.
+---@param tbl table The table to search.
+---@param value any The value to check for.
+---@return boolean exists True if the value exists, otherwise false.
+utils.contains = function(tbl, value)
+    for _, v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
+    end
+    return false
+end
+
+--- Find the index of a value in a table.
+---@param tbl table The table to search.
+---@param value any The value to find.
+---@return number|nil index The index of the value, or nil if not found.
+utils.index_of = function(tbl, value)
+    for index, v in ipairs(tbl) do
+        if v == value then
+            return index
+        end
+    end
+    return nil
+end
+
 return utils

@@ -1,6 +1,32 @@
 local constants = require("snailrace.core.constants")
+local utils = require("snailrace.core.utils")
 
 local render = {}
+
+
+--- Generate gate markers based on their state.
+---@param state table The current race state.
+---@param track_length number The length of the track.
+---@return string The track line with gates represented.
+local function generate_track_with_gates(state, track_length)
+    local track = ""
+    local gate_positions = constants.GATES
+
+    for i = 1, track_length do
+        if utils.contains(gate_positions, i) then
+            local gate_index = utils.index_of(gate_positions, i)
+            if state.activated_gates[gate_index] then
+                track = track .. "o" -- Activated gate
+            else
+                track = track .. "+" -- Closed gate
+            end
+        else
+            track = track .. "-"
+        end
+    end
+
+    return track
+end
 
 --- Generate a visual representation of the join state
 --- @param state table The current race state.
@@ -24,8 +50,9 @@ end
 --- @return string message The rendered race track as a string.
 render.race_track = function(state)
     local track_length = constants.MAX_UNITS + 1 -- Include finish line
-    local race_render = "```State: In Progress...\n   " .. string.rep(" ", track_length) .. "🏁\n"
-    race_render = race_render .. "  |" .. string.rep("-", track_length) .. "|\n"
+    local race_render = "```State: In Progress...\n"
+    race_render = race_render .. "   " .. string.rep(" ", track_length) .. "🏁\n"
+    race_render = race_render .. "  |" .. generate_track_with_gates(state, track_length) .. "|\n"
 
     local lane_number = 1
     local entrants = "Entrants:\n"
@@ -53,7 +80,7 @@ render.race_track = function(state)
         lane_number = lane_number + 1
     end
 
-    race_render = race_render .. "  |" .. string.rep("-", track_length) .. "|\n\n" .. entrants .. "```"
+    race_render = race_render .. "  |" .. generate_track_with_gates(state, track_length) .. "|\n\n" .. entrants .. "```"
     return race_render
 end
 
@@ -63,7 +90,7 @@ end
 render.race_track_finish = function(state)
     local track_length = constants.MAX_UNITS + 1 -- Include finish line
     local race_render = "```State: Concluded\n   " .. string.rep(" ", track_length) .. "🏁\n"
-    race_render = race_render .. "  |" .. string.rep("-", track_length) .. "|\n"
+    race_render = race_render .. "  |" .. generate_track_with_gates(state, track_length) .. "|\n"
 
     local lane_number = 1
     local entrants = "Entrants:\n"
@@ -100,7 +127,7 @@ render.race_track_finish = function(state)
         lane_number = lane_number + 1
     end
 
-    race_render = race_render .. "  |" .. string.rep("-", track_length) .. "|\n\n" .. entrants .. "```"
+    race_render = race_render .. "  |" .. generate_track_with_gates(state, track_length) .. "|\n\n" .. entrants .. "```"
     return race_render
 end
 
