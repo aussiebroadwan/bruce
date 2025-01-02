@@ -1,13 +1,15 @@
 local driftwood = require("driftwood")
 
 local state = require("snailrace.state")
-local racers = require("snailrace.racers")
-local logic = require("snailrace.logic")
-local render = require("snailrace.render")
+local constants = require("snailrace.core.constants")
+local racers = require("snailrace.game.racers")
+local logic = require("snailrace.game.logic")
+local render = require("snailrace.game.render")
 
 local commands = {}
 
 --- Handle the "snailrace" command to host a race.
+--- @param interaction CommandInteraction The command interaction.
 commands.handle_snailrace_command = function(interaction)
     local host_id = interaction.user.id
     local channel_id = interaction.channel_id
@@ -17,37 +19,21 @@ commands.handle_snailrace_command = function(interaction)
         return
     end
 
-    local current_state = {
-        host = host_id,
-        channel_id = channel_id,
-        participants = {[host_id] = interaction.user.global_name},
-        positions = {[host_id] = 0},
-        deck = {},
-        gate_index = 1,
-        active = true,
-        message_id = nil
-    }
-
-    -- Add fake racers
-    racers.add_fake_racers(current_state)
-
-    -- Build and shuffle the deck
-    racers.build_deck(current_state)
+    local current_state = state.initialize(host_id, channel_id, interaction)
 
     -- Render initial race track and save the message ID
-    local race_message = render.race_track(current_state)
-    current_state.message_id = driftwood.message.add(channel_id, race_message)
-    state.set(current_state)
-
-    state.set(current_state)
-    interaction:reply_with_action("A new snail race has started! Click below to join.", {
+    local join_message = render.join_race(current_state)
+    current_state.message_id = driftwood.message.add(channel_id, join_message, {
         driftwood.new_button("Join Race", "snailrace_join")
     })
+    state.set(current_state)
 
-    driftwood.timer.run_after(logic.race_tick, 30)
+    interaction:reply("A new snail race has started!")
+    driftwood.timer.run_after(logic.race_start, constants.JOIN_DURATION)
 end
 
 --- Handle the "join" button interaction.
+--- @param interaction EventInteraction The command interaction.
 commands.handle_join_button = function(interaction)
     local current_state = state.get()
 
@@ -66,6 +52,9 @@ commands.handle_join_button = function(interaction)
     state.set(current_state)
 
     interaction:reply("You joined the race!", {ephemeral = true})
+
+    local join_message = render.join_race(current_state)
+    driftwood.message.edit(current_state.message_id, current_state.channel_id, join_message)
 end
 
 return commands

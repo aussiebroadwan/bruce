@@ -1,6 +1,6 @@
-# Tony V2 - Discord Bot
+# Bruce - Discord Bot
 
-Tony V2 is the bot for the Aussie BroadWAN Discord server. Originally written in Go, Tony has evolved to embrace a more flexible and user-friendly approach. By leveraging the **[Driftwood]** framework, which utilizes Lua scripting, Tony makes it easy for community members to add new features and commands without delving into complex programming.
+Bruce is the bot for the Aussie BroadWAN Discord server. Originally written in Go under the name of Tony, Bruce has evolved to embrace a more flexible and user-friendly approach. By leveraging the **[Driftwood]** framework, which utilizes Lua scripting, Bruce makes it easy for community members to add new features and commands without delving into complex programming.
 
 - **Extensible with Lua Scripts**: Easily add new commands, subcommands, and features by writing Lua scripts.
 - **Dynamic Interaction Handling**: Supports message components like buttons and dropdowns with advanced event handling.
@@ -11,7 +11,7 @@ Tony V2 is the bot for the Aussie BroadWAN Discord server. Originally written in
 
 ## How to Run
 
-To deploy your own instance of Tony, start by creating a Discord bot 
+To deploy your own instance of Bruce, start by creating a Discord bot 
 application. Detailed instructions are available in the [Discord Dev Doc]. 
 After setting up your bot, generate a Bot Token and save it in a `.env` file.
 
