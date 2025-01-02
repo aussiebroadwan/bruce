@@ -8,7 +8,7 @@ local render = {}
 render.join_race = function(state)
     local entrants = "Entrants:\n"
     local lane_number = 1
-    for player_id, position in pairs(state.positions) do
+    for player_id, _ in pairs(state.positions) do
         local name = state.participants[player_id]
         if name then
             entrants = entrants .. string.format("[%d] %s\n", lane_number, name)

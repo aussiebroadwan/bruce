@@ -1,6 +1,7 @@
 local utils = require("snailrace.core.utils")
 local constants = require("snailrace.core.constants")
-local decks = require("snailrace.core.decks")
+local predefined = require("snailrace.core.predefined_racers")
+local decks = require("snailrace.cards.decks")
 
 local racers = {}
 
@@ -8,7 +9,7 @@ local racers = {}
 --- @param state table The current race state.
 racers.add_fake_racers = function(state)
     local required_slots = constants.MIN_PARTICIPANTS - utils.table_length(state.participants)
-    local fake_racer_ids = utils.keys(constants.RACERS)
+    local fake_racer_ids = utils.keys(predefined.RACERS)
 
     -- Shuffle the fake racer IDs to randomize selection
     utils.shuffle_table(fake_racer_ids)
@@ -17,7 +18,7 @@ racers.add_fake_racers = function(state)
         local fake_id = fake_racer_ids[i]
         if not fake_id then break end -- No more predefined racers available
 
-        local racer = constants.RACERS[fake_id]
+        local racer = predefined.RACERS[fake_id]
         if racer then
             state.participants[fake_id] = racer.name
             state.positions[fake_id] = 0
@@ -48,7 +49,7 @@ end
 --- @param snail_id string The ID of the racer.
 --- @return string[] The racer's deck of card names.
 racers.get_deck = function(snail_id)
-    local racer_definition = constants.RACERS[snail_id]
+    local racer_definition = predefined.RACERS[snail_id]
     if racer_definition then
         if racer_definition.deck_preset then
             return decks.load_deck(racer_definition.deck_preset) -- Generate the deck from the preset
@@ -65,7 +66,7 @@ end
 --- @param snail_id string The ID of the snail.
 --- @param placement number The placement in the race.
 racers.record_placement = function(snail_id, placement)
-    local racer_definition = constants.RACERS[snail_id]
+    local racer_definition = predefined.RACERS[snail_id]
     if racer_definition then
         table.insert(racer_definition.history, placement)
         if #racer_definition.history > 5 then

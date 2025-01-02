@@ -1,7 +1,7 @@
 local driftwood = require("driftwood")
-local effects = require("snailrace.core.card_effects")
-local utils = require("snailrace.core.utils")
 local constants = require("snailrace.core.constants")
+local utils = require("snailrace.core.utils")
+local effects = require("snailrace.cards.card_effects")
 
 local handlers = {}
 

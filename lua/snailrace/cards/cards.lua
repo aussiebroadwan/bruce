@@ -1,4 +1,4 @@
-local effects = require("snailrace.core.card_effects")
+local effects = require("snailrace.cards.card_effects")
 
 ---@class Card
 ---@field name string          # Unique identifier for the card
@@ -118,14 +118,14 @@ cards.definitions = {
         effects = {effects.FORWARD, effects.FORWARD, effects.FORWARD},
         weight = 95
     },
-    
+
     -- The snail stumbles upon a lush garden and stops for a feast.
     ["garden_buffet"] = {
         name = "Garden Buffet",
         effects = {effects.SKIP, effects.BOOST},
         weight = 45
     },
-    
+
     -- The snail conjures a storm of salt, forcing at least 3 snails to move back.
     ["salt_storm"] = {
         name = "Salt Storm",
@@ -146,8 +146,6 @@ cards.definitions = {
         effects = {effects.ATTACK, effects.SKIP, effects.ATTACK, effects.SKIP},
         weight = 35
     }
-    
-    
 }
 
 --- Get a card definition by name.
