@@ -16,6 +16,6 @@ driftwood.on_ready(function()
     end
 
     -- Add a message to the channel.
-    driftwood.message.add(channel_id, "Hello, world! " .. os.getenv("VERSION"))
+    driftwood.message.add(channel_id, "Hello, world! I have rebooted.")
 
 end)
