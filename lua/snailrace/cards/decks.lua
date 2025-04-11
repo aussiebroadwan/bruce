@@ -1,8 +1,36 @@
-
 local decks = {}
 
+--- Deck presets with names for later development. By default all
+--- these decks will be identical, being filled with `move 1` 
+--- cards. See `special_presets` for the more advanced version.
 --- @type table<string, table<string, number>>
 decks.presets = {
+    ["steady_racer"] = { },
+    ["aggressive_attacker"] = { },
+    ["risky_gambler"] = { },
+    ["defensive_strategist"] = { },
+    ["speedster"] = { },
+    ["balanced_runner"] = { },
+    ["disruptor"] = { },
+    ["sprinter"] = { },
+    ["opportunist"] = { },
+    ["risk_taker"] = { },
+    ["slime_master"] = { },
+    ["turbo_charger"] = { },
+    ["chaos_creator"] = { },
+    ["defensive_crawler"] = { },
+    ["trailblazer"] = { },
+    ["trickster"] = { },
+    ["power_snail"] = { },
+    ["opportunist_stalker"] = { },
+    ["speed_demon"] = { },
+    ["saboteur"] = { }
+}
+
+--- This is currently unused but will add some cool features
+--- to the race, it just needs balancing.
+--- @type table<string, table<string, number>>
+decks.special_presets = {
     -- Focuses on reliable forward movement with some defensive options.
     ["steady_racer"] = {
         ["move_2"] = 6,
@@ -130,7 +158,6 @@ decks.presets = {
 --- @param deck_name string The name of the deck to load.
 --- @return string[] deck A 32-card array of unique card names.
 decks.load_deck = function(deck_name)
-
     local deck_composition = decks.presets[deck_name]
     if not deck_composition then
         error("Invalid deck name: " .. deck_name)
@@ -147,7 +174,7 @@ decks.load_deck = function(deck_name)
     if #card_pool > 32 then
         error("Deck exceeds 32 cards. Composition is invalid for " .. deck_name)
     elseif #card_pool < 32 then
-        local filler_card = "move"  -- Default filler card is "Move 1"
+        local filler_card = "move" -- Default filler card is "Move 1"
         while #card_pool < 32 do
             table.insert(card_pool, filler_card)
         end
@@ -173,3 +200,4 @@ decks.load_random_deck = function()
 end
 
 return decks
+

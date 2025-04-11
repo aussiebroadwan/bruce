@@ -1,0 +1,34 @@
+name: Deploy
+    
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Generate docker-compose file
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          GUILD_ID: ${{ secrets.GUILD_ID }}
+        run: |
+          cat <<EOF > docker-compose.yml
+          services:
+            bot:
+              image: "ghcr.io/lcox74/driftwood:v1.0.1"
+              environment:
+                - BOT_CHANNEL=bot-testing
+                - VERSION=${GITHUB_SHA}
+                - DISCORD_TOKEN=${DISCORD_TOKEN}
+                - GUILD_ID=${GUILD_ID}
+              deploy:
+                labels:
+                  - "traefik.enable=false"
+              volumes:
+                - ./lua:/lua
+          EOF
