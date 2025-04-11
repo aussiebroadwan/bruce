@@ -30,7 +30,7 @@ jobs:
           cat <<EOF > docker-compose.yml
           services:
             bot:
-              image: "ghcr.io/lcox74/driftwood:v1.0.1"
+              image: "ghcr.io/lcox74/driftwood:v1.1.0"
               environment:
                 - BOT_CHANNEL=bot-testing
                 - VERSION=${GITHUB_SHA}
