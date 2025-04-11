@@ -19,7 +19,7 @@ jobs:
           port: 22
           key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
           source: "lua/*"
-          target: "/home/deploy/bot/lua/"
+          target: "./bot/"
       - name: Generate docker-compose file
         env:
           GITHUB_SHA: ${{ github.sha }}
@@ -36,10 +36,13 @@ jobs:
                 - DISCORD_TOKEN=${DISCORD_TOKEN}
                 - GUILD_ID=${GUILD_ID}
               deploy:
+                placement:
+                  constraints:
+                    - node.role == manager
                 labels:
                   - "traefik.enable=false"
               volumes:
-                - /home/deploy/bot/lua:/lua
+                - ./bot/lua:/lua
           EOF
       - name: Deploy docker stack
         uses: cssnr/stack-deploy-action@v1
