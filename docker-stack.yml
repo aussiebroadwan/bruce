@@ -1,0 +1,16 @@
+services:
+  bot:
+    image: ${REGISTRY}/${IMAGE_NAME}:${GITHUB_SHA}
+    hostname: '{{.Node.Hostname}}'
+
+    # Set the discord token and other values as environment variables for the service
+    environment:
+      - BOT_CHANNEL=bot-testing
+      - VERSION=${GITHUB_SHA}
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - GUILD_ID=${GUILD_ID}
+
+    deploy:
+      labels:
+        # Disable Traefik to route traffic to this service
+        - traefik.enable=false
