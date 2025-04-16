@@ -1,3 +1,3 @@
-FROM ghcr.io/aussiebroadwan/driftwood:v1.1.0
+FROM ghcr.io/aussiebroadwan/driftwood:v1.2.0
 
 COPY ./lua /lua

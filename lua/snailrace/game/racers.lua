@@ -35,7 +35,7 @@ racers.build_deck = function(state)
         -- Retrieve the racer's unique deck
         local racer_deck = racers.get_deck(snail_id)
         for _, card_name in ipairs(racer_deck) do
-            table.insert(state.deck, {snail_id = snail_id, card = card_name})
+            table.insert(state.deck, { snail_id = snail_id, card = card_name })
         end
     end
     utils.shuffle_table(state.deck)

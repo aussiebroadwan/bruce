@@ -73,7 +73,9 @@ logic.race_tick = function()
     -- Render and update state
     local race_message = render.race_track(current_state)
     driftwood.message.edit(current_state.message_id, current_state.channel_id, race_message, {
-        driftwood.new_button("Join Race", "snailrace_join", true),
+        components = {
+            driftwood.new_button("Join Race", "snailrace_join", true),
+        }
     })
 
     state.set(current_state)
@@ -83,7 +85,7 @@ logic.race_tick = function()
         logic.finish_race()
         return
     end
-    
+
     driftwood.timer.run_after(logic.race_tick, constants.TICK_SPEED)
 end
 
@@ -98,7 +100,9 @@ logic.finish_race = function()
     -- Render and update state
     local race_message = render.race_track_finish(current_state)
     driftwood.message.edit(current_state.message_id, current_state.channel_id, race_message, {
-        driftwood.new_button("Join Race", "snailrace_join", true),
+        components = {
+            driftwood.new_button("Join Race", "snailrace_join", true),
+        }
     })
 
     -- Clear state
@@ -113,7 +117,7 @@ logic.race_start = function()
         return
     end
 
-     -- Add fake racers
+    -- Add fake racers
     racers.add_fake_racers(start_state)
 
     -- Build and shuffle the deck

@@ -1,30 +1,30 @@
 local decks = {}
 
 --- Deck presets with names for later development. By default all
---- these decks will be identical, being filled with `move 1` 
+--- these decks will be identical, being filled with `move 1`
 --- cards. See `special_presets` for the more advanced version.
 --- @type table<string, table<string, number>>
 decks.presets = {
-    ["steady_racer"] = { },
-    ["aggressive_attacker"] = { },
-    ["risky_gambler"] = { },
-    ["defensive_strategist"] = { },
-    ["speedster"] = { },
-    ["balanced_runner"] = { },
-    ["disruptor"] = { },
-    ["sprinter"] = { },
-    ["opportunist"] = { },
-    ["risk_taker"] = { },
-    ["slime_master"] = { },
-    ["turbo_charger"] = { },
-    ["chaos_creator"] = { },
-    ["defensive_crawler"] = { },
-    ["trailblazer"] = { },
-    ["trickster"] = { },
-    ["power_snail"] = { },
-    ["opportunist_stalker"] = { },
-    ["speed_demon"] = { },
-    ["saboteur"] = { }
+    ["steady_racer"] = {},
+    ["aggressive_attacker"] = {},
+    ["risky_gambler"] = {},
+    ["defensive_strategist"] = {},
+    ["speedster"] = {},
+    ["balanced_runner"] = {},
+    ["disruptor"] = {},
+    ["sprinter"] = {},
+    ["opportunist"] = {},
+    ["risk_taker"] = {},
+    ["slime_master"] = {},
+    ["turbo_charger"] = {},
+    ["chaos_creator"] = {},
+    ["defensive_crawler"] = {},
+    ["trailblazer"] = {},
+    ["trickster"] = {},
+    ["power_snail"] = {},
+    ["opportunist_stalker"] = {},
+    ["speed_demon"] = {},
+    ["saboteur"] = {}
 }
 
 --- This is currently unused but will add some cool features
@@ -200,4 +200,3 @@ decks.load_random_deck = function()
 end
 
 return decks
-

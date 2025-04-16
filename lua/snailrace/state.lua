@@ -13,15 +13,15 @@ state.initialize = function(host_id, channel_id, interaction)
     return {
         host = host_id,
         channel_id = channel_id,
-        participants = {[host_id] = interaction.user.global_name},
-        positions = {[host_id] = 0},
-        finish_order = {}, -- Track the finishing order
-        deck = {},         -- The race deck
-        boosts = {},       -- Tracks active boosts
-        defends = {},      -- Tracks active defense effects
-        gates = {},              -- Gate cards drawn at the start
-        activated_gates = {},    -- Track activated gates
-        gate_index = 1,          -- Current gate to check
+        participants = { [host_id] = interaction.user.global_name },
+        positions = { [host_id] = 0 },
+        finish_order = {},    -- Track the finishing order
+        deck = {},            -- The race deck
+        boosts = {},          -- Tracks active boosts
+        defends = {},         -- Tracks active defense effects
+        gates = {},           -- Gate cards drawn at the start
+        activated_gates = {}, -- Track activated gates
+        gate_index = 1,       -- Current gate to check
         active = true,
         message_id = nil,
         deck_size_threshold = 0,

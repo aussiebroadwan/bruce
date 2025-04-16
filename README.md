@@ -32,7 +32,7 @@ Alternatively, use the following Docker Compose template to deploy Bruce:
 ```yaml
 services:
   bot:
-    image: "ghcr.io/lcox74/driftwood:v1.0.1"
+    image: "ghcr.io/aussiebroadwan/driftwood:v1.2.0"
     environment:
       - DISCORD_TOKEN=your_bot_token
       - GUILD_ID=your_guild_id # Your server ID
@@ -40,6 +40,6 @@ services:
       - ./lua:/lua # Mounts your local lua directory to the container
 ```
 
-[Driftwood]: https://github.com/lcox74/Driftwood
+[Driftwood]: https://github.com/aussiebroadwan/driftwood
 [Go]: https://go.dev/
 [Discord Developer Portal]: https://discord.com/developers/docs/getting-started

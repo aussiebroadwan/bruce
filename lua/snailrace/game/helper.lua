@@ -91,7 +91,8 @@ helpers.activate_gate_card = function(gate_index, current_state)
         return
     end
 
-    driftwood.log.info("Activating gate card at gate " .. constants.GATES[gate_index] .. ": " .. card.name .. " for snail " .. gate_card.snail_id)
+    driftwood.log.info("Activating gate card at gate " ..
+    constants.GATES[gate_index] .. ": " .. card.name .. " for snail " .. gate_card.snail_id)
     handlers.process_card(card.effects, gate_card.snail_id, current_state)
 end
 

@@ -1,4 +1,3 @@
-
 local predefined = {}
 
 --- @class Racer
@@ -12,7 +11,7 @@ predefined.RACERS = {
     ["bot_snail_001"] = {
         name = "Granite Grump",
         deck_preset = "steady_racer", -- Uses the steady racer deck preset
-        history = {} -- History of race participation and results
+        history = {}                  -- History of race participation and results
     },
     ["bot_snail_002"] = {
         name = "Flashy Floater",

@@ -11,11 +11,23 @@ driftwood.on_ready(function()
     -- Get the ID of the bot testing channel.
     local channel_id = driftwood.channel.get(bot_channel)
     if channel_id == nil then
-        driftwood.log.error("Channel '".. bot_channel .. "' not found")
+        driftwood.log.error("Channel '" .. bot_channel .. "' not found")
         return
     end
 
-    -- Add a message to the channel.
-    driftwood.message.add(channel_id, "Hello, world! I have rebooted.")
+    local fullVersion = os.getenv("VERSION") or "unknown"
+    local shortVersion = string.sub(fullVersion, 1, 7)
 
+    -- Add a message to the channel.
+    driftwood.message.add(channel_id, "", {
+        embed = {
+            title = "Bruce Status",
+            description = string.format(
+                "I'm now online running version [`%s`](https://github.com/aussiebroadwan/bruce/commit/%s). Check out the my repo to see what's changed!",
+                shortVersion,
+                fullVersion
+            ),
+            color = 0x4CAF50,
+        }
+    })
 end)

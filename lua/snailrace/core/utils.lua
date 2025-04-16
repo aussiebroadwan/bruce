@@ -36,14 +36,14 @@ end
 --- @return string table_string The table as a string.
 utils.dump = function(tbl)
     if type(tbl) == 'table' then
-       local s = '{ '
-       for k,v in pairs(tbl) do
-          if type(k) ~= 'number' then k = '"'..k..'"' end
-          s = s .. '['..k..'] = ' .. utils.dump(v) .. ','
-       end
-       return s .. '} '
+        local s = '{ '
+        for k, v in pairs(tbl) do
+            if type(k) ~= 'number' then k = '"' .. k .. '"' end
+            s = s .. '[' .. k .. '] = ' .. utils.dump(v) .. ','
+        end
+        return s .. '} '
     else
-       return tostring(tbl)
+        return tostring(tbl)
     end
 end
 
@@ -93,7 +93,7 @@ utils.unpack = function(tbl, start, stop)
     stop = stop or #tbl
 
     if start > stop then
-        return -- Base case: no elements to unpack
+        return                                                -- Base case: no elements to unpack
     else
         return tbl[start], utils.unpack(tbl, start + 1, stop) -- Recursive unpacking
     end
